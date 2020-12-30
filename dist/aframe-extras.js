@@ -9379,7 +9379,9 @@ module.exports = AFRAME.registerComponent('movement-controls', {
 
   init: function init() {
     var el = this.el;
-
+    if (!this.data.camera) {
+      this.data.camera = el.querySelector('[camera]');
+    }
     this.velocityCtrl = null;
 
     this.velocity = new THREE.Vector3();
@@ -11065,7 +11067,7 @@ module.exports = AFRAME.registerComponent('nav-agent', {
       // ground, not traveling in a straight line from higher to lower waypoints.
       raycaster.ray.origin.copy(vNext);
       raycaster.ray.origin.y += 1.5;
-      raycaster.ray.direction.y = -1;
+      raycaster.ray.direction = { x: 0, y: -1, z: 0 };
       var intersections = raycaster.intersectObject(this.system.getNavMesh());
 
       if (!intersections.length) {
